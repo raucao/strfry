@@ -22,7 +22,10 @@ FROM ubuntu:jammy as runner
 
 RUN apt update && apt install -y --no-install-recommends \
     liblmdb0 libflatbuffers1 libsecp256k1-0 libb2-1 libzstd1 \
-    && rm -rf /var/lib/apt/lists/*
+    ca-certificates curl unzip && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL https://deno.land/x/install/install.sh | sh \
+    && mv /root/.deno/bin/deno /usr/local/bin/deno
 
 COPY --from=build /build/strfry /usr/local/bin/strfry
 
